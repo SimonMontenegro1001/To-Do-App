@@ -1,16 +1,16 @@
-import { menu, wait } from './helpers/mensajesHelper.js'
-import { handleMenuOption } from './utils/handleMenuOption.js';
-import { Tareas } from './models/tareas.js'
+import { showMenu, waitForEnter } from './helpers/messageHelper.js';
+import { handleMenuOption } from './controllers/taskController.js';
+import { TaskManager } from './models/TaskManager.js';
 
-const tasks = new Tareas()
+const tasks = new TaskManager();
 
-do {
-    const { option } = await menu()
-    if (option == 0) break;
-    await handleMenuOption(tasks, option)
-    await wait()
-} while (true);
+async function main() {
+    do {
+        const { option } = await showMenu();
+        await handleMenuOption(tasks, option);
+        if (option == 0) break;
+        await waitForEnter();
+    } while (true);
+}
 
-
-
-
+main();

@@ -1,6 +1,5 @@
-# Aplicacion de consola todo list 
+# Aplicacion de consola Todo App 
 
 ### con inquirer, uuid y picocolors
 
-- Refactorizar taskController.js
 

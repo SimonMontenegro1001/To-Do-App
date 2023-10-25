@@ -74,30 +74,38 @@ async function deleteTasks(tasks) {
 }
 
 async function toggleTasks(tasks) {
-    const taskList = tasks.getTasks();
+    const taskList = tasks.getTasks()
+
     if (taskList.length === 0) {
-        console.log("\n\tNo hay tareas O.O");
-        return;
+        console.log("\n\tNo hay tareas O.O")
+        return
     }
 
     const allDescriptions = taskList.map(task => {
-        const { description, isCompleted, id } = task;
+        const { description, isCompleted, id } = task
         return {
             name: description,
             value: id,
             checked: isCompleted
-        };
-    });
-
-    const { response } = await readChecklist("Selecciona las tareas a completar: ", allDescriptions);
-
-    allDescriptions.forEach((task, index) => {
-        if (task.checked !== response[index]) {
-            tasks.toggleTask(task.value);
         }
-    });
+    })
+    const a = allDescriptions.map(p => {
+        return { value: p.value, cambiarOriginal: p.checked }
+    })
+    const { response } = await readChecklist("Selecciona las tareas a completar: ", allDescriptions)
 
-    console.log(infoMessage("Taeas Editadas"));
+    const responseRes = [];
+    allDescriptions.forEach(task => {
+        const p = { value: task.value, cambiar: response.includes(task.value) }
+        responseRes.push(p)
+    });
+    a.forEach((t, i) => {
+        if (t.cambiarOriginal !== responseRes[i].cambiar) {
+            tasks.toggleTask(t.value)
+        }
+    })
+    console.log(infoMessage("Tareas editadas"))
+
 }
 
 function exit() {
